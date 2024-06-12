@@ -82,7 +82,8 @@ docker push yourRegistryName.azurecr.io/your-image
 Harbor is an open-source container image registry that secures images with role-based access control, scans images for vulnerabilities, and signs images as trusted.
 
 Using Docker Compose
-Create a `harbor.yml` file with your configuration. See at the 06.Harbor for details >>>
+Create a `harbor.yml` file with your configuration. 
+[See at the 06.Harbor for details >>>](./06.Harbor/readme.md)
 
 ## [7] Using GitLab Container Registry
 [See the details here >>>](./07.GitLab_Container_Registry/readme.md)
