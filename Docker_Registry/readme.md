@@ -28,3 +28,65 @@ services:
     volumes:
       - ./data:/var/lib/registry
 ```
+
+## [3] Using AWS ECR (Elastic Container Registry)
+AWS ECR is a managed container image registry service. You can integrate it with your AWS account and use it to store your Docker images.
+
+Steps:
+1. Create a repository in AWS ECR.
+2. Configure your Docker CLI to authenticate with ECR:
+sh
+```
+aws ecr get-login-password --region your-region | docker login --username AWS --password-stdin your-account-id.dkr.ecr.your-region.amazonaws.com
+```
+3. Tag and push your image:
+```
+docker tag your-image:latest your-account-id.dkr.ecr.your-region.amazonaws.com/your-repository:tag
+docker push your-account-id.dkr.ecr.your-region.amazonaws.com/your-repository:tag
+```
+
+## [4] Using Google Container Registry (GCR)
+GCR is a fully managed Docker registry service by Google Cloud Platform.
+
+Steps:
+1. Authenticate Docker with GCR:
+sh
+```
+gcloud auth configure-docker
+```
+2. Tag and push your image:
+sh
+```
+docker tag your-image gcr.io/your-project-id/your-image
+docker push gcr.io/your-project-id/your-image
+```
+
+## [5] Using Azure Container Registry (ACR)
+ACR is a managed Docker registry service by Microsoft Azure.
+
+Steps:
+1. Create a registry in Azure.
+2. Log in to the registry:
+sh
+```
+az acr login --name yourRegistryName
+```
+3. Tag and push your image:
+sh
+```
+docker tag your-image yourRegistryName.azurecr.io/your-image
+docker push yourRegistryName.azurecr.io/your-image
+```
+
+## [6] Using Harbor
+Harbor is an open-source container image registry that secures images with role-based access control, scans images for vulnerabilities, and signs images as trusted.
+
+Using Docker Compose
+Create a `harbor.yml` file with your configuration. See at the 06.Harbor for details >>>
+
+
+
+
+
+
+
