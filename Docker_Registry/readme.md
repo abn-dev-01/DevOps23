@@ -84,9 +84,10 @@ Harbor is an open-source container image registry that secures images with role-
 Using Docker Compose
 Create a `harbor.yml` file with your configuration. See at the 06.Harbor for details >>>
 
+## [7] Using GitLab Container Registry
+[See the details here >>>](./07.GitLab_Container_Registry/readme.md)
 
-
-
-
+## [8] Using Self-Hosted Solutions
+[See the details here >>>](./08.Self_hosting/readme.md)
 
 
