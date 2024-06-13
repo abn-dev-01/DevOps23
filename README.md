@@ -1,5 +1,5 @@
 # DevOps23
-DevOps examples, snippets, DevOps solutions
+DevOps examples, snippets, DevOps solutions. Docker Registry (private, AWS ECR, GCH, ACR, Harbor, Gitlab)
 
 ## [Docker Registry](./Docker_Registry/)
 
