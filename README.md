@@ -12,4 +12,4 @@ It is about how to get the Docker Registry with some small and simple examples o
 - GitLab Container Registry
 - Self-Hosted Solutions
 
-  
+## [Windows](./Windows/)  
