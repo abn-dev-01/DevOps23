@@ -13,4 +13,4 @@ It is about how to get the Docker Registry with some small and simple examples o
 - Self-Hosted Solutions
 
 ## [Windows](./Windows/)  
-- [win11: how to reset all politics to default windows 11 pro settings](./Windows/win11/)
+- [win11: how to reset all politics to default windows 11 pro settings](./Windows/win11/reset-group-politics.%5Bhowto%5D.md
