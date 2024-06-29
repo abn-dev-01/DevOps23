@@ -14,3 +14,6 @@ It is about how to get the Docker Registry with some small and simple examples o
 
 ## [Windows](./Windows/)  
 - [win11: how to reset all politics to default windows 11 pro settings](./Windows/win11/reset-group-politics.%5Bhowto%5D.md)
+
+## [LINUX Bash Aliases](https://github.com/abn-dev-01/devops_bash_aliases)
+- [LINUX Bash Aliases](https://github.com/abn-dev-01/devops_bash_aliases) common aliases for *NIX OS
