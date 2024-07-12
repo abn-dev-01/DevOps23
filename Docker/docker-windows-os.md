@@ -2,7 +2,7 @@ If you're looking for alternatives to Docker Desktop on macOS and Windows that a
 
 ### Alternatives for macOS:
 
-1. **Rancher Desktop**(https://www.google.com/search?q=podman+desktop&newwindow=1)
+1. [**Rancher Desktop**](https://www.google.com/search?q=podman+desktop&newwindow=1)
    - **Overview**: Rancher Desktop is an open-source application for Mac and Windows that allows you to run Kubernetes and container management directly on your desktop. It includes containerd and k3s instead of Docker’s Moby.
    - **docker-compose Compatibility**: Rancher Desktop provides compatibility with Docker Compose through its Kubernetes backend and the `nerdctl` command, which is a drop-in replacement for Docker CLI.
    - **Installation**: You can download Rancher Desktop from its [GitHub releases page](https://github.com/rancher-sandbox/rancher-desktop/releases).
