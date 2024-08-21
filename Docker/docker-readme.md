@@ -8,22 +8,24 @@ If you're looking for alternatives to Docker Desktop on Windows, there are sever
 - **Installation:** Podman can be installed on Windows using the Windows Subsystem for Linux (WSL). After setting up WSL, you can install Podman in your Linux distribution using the package manager.
 
 ### 2. **Rancher Desktop**
-Rancher Desktop is an application for Mac, Windows, and Linux that provides Kubernetes and container management at the desktop level. It uses containerd and k3s under the hood instead of Docker.
+[Rancher Desktop](https://rancherdesktop.io/) is an application for Mac, Windows, and Linux that provides Kubernetes and container management at the desktop level. It uses containerd and k3s under the hood instead of Docker.
 
 - **Features:** Rancher Desktop allows you to run Kubernetes using the same version that ships with Docker Desktop, and it uses a straightforward interface to manage Kubernetes contexts and container images.
 
 ### 3. **Multipass**
-Multipass is a lightweight VM manager that allows you to quickly and easily launch and manage VMs. It provides a command-line interface to launch, manage, and generally interact with VM instances for Linux.
+[Multipass](https://multipass.run/install) is a lightweight VM manager that allows you to quickly and easily launch and manage VMs. It provides a command-line interface to launch, manage, and generally interact with VM instances for Linux.
 
 - **Usage:** While primarily used for launching Linux VMs, you can use it to run any containerized applications inside those VMs. This can be a simpler alternative for those who need a quick setup for development environments.
 
 ### 4. **Minikube**
-Minikube is a tool that lets you run Kubernetes locally. Minikube runs a single-node Kubernetes cluster inside a VM on your laptop for users looking to try out Kubernetes or develop with it day-to-day.
+[Minikube ](https://kubernetes.io/docs/tasks/tools/#kubectl) is a tool that lets you run Kubernetes locally. Minikube runs a single-node Kubernetes cluster inside a VM on your laptop for users looking to try out Kubernetes or develop with it day-to-day.
 
 - **Purpose:** You can use Minikube to run Docker containers within a Kubernetes environment. It's useful for learning and development purposes.
+- [Minikube Start](https://kubernetes.io/docs/tutorials/hello-minikube/)
+- [Hello Minikube](https://kubernetes.io/docs/tutorials/hello-minikube/)
 
 ### 5. **CRI-O**
-CRI-O is a lightweight container engine for running containers according to the Open Container Initiative (OCI) specification. It’s designed to provide an integration path between OCI conformant runtimes and the Kubelet. 
+[CRI-O](https://cri-o.io/) is a lightweight container engine for running containers according to the Open Container Initiative (OCI) specification. It’s designed to provide an integration path between OCI conformant runtimes and the Kubelet. 
 
 - **Details:** While not a direct replacement for Docker Desktop, it can be used in environments where Kubernetes is being used to manage containers.
 
