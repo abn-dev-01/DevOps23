@@ -1,6 +1,6 @@
 Yes, you can run Kafka without Zookeeper by using **KRaft mode** (Kafka Raft). KRaft is a feature introduced in Apache Kafka that allows Kafka to operate without the need for Zookeeper by integrating the metadata management within Kafka brokers themselves. Below is a `docker-compose.yml` file for running Kafka in KRaft mode.
 
-### `docker-compose.yml` for Kafka in KRaft Mode
+### [`docker-compose.yml`](./docker-compose.yml) for Kafka in KRaft Mode
 
 ```yaml
 version: '3.8'
