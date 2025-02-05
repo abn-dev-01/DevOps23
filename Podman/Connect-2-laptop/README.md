@@ -57,6 +57,19 @@ Where are:
           config:
             - subnet: 192.168.144.0/30
 
-#
+## run compose yaml
+
+    podman compose -f compose.yaml up -d
 
 
+## check networks:
+
+        \>podman network ls
+        NETWORK ID    NAME                    DRIVER
+        bfd1198e95a4  cry-okx_podman-okx-net  bridge
+        2f259bab93aa  podman                  bridge
+
+# Check the connection to remote service in container
+
+* Open 1st laptop;
+* Check the connection to the postgres.
