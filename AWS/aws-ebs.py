@@ -6,9 +6,11 @@
 # This file makes encrypting attached EC2 `instance-id`
 # 
 
+
 import boto3
 import sys
 from time import sleep
+from datetime import datetime, timezone, timedelta
 
 if len(sys.argv) != 2:
     print("Usage: aws-ebs.py <instance-id>")
@@ -33,6 +35,10 @@ volumes_response = ec2.describe_volumes(
 # Step 3: Create snapshots for each volume
 snapshot_ids = {}
 volume_details = {}
+
+now = datetime.now(timezone.utc)
+snapshot_ttl = timedelta(minutes=30)
+
 for volume in volumes_response['Volumes']:
     volume_id = volume['VolumeId']
     device_name = volume['Attachments'][0]['Device']
@@ -42,38 +48,67 @@ for volume in volumes_response['Volumes']:
     size = volume['Size']
     availability_zone = volume['AvailabilityZone']
 
-    print(f"Creating snapshot for volume {volume_id}...")
-    snapshot_response = ec2.create_snapshot(
-        VolumeId=volume_id,
-        Description=f"Snapshot for encryption of {volume_id} ({device_name}) from instance {instance_id}"
+    # Поиск существующего свежего snapshot
+    print(f"Checking existing snapshots for volume {volume_id}...")
+    snapshots = ec2.describe_snapshots(
+        Filters=[
+            {'Name': 'volume-id', 'Values': [volume_id]},
+            {'Name': 'status', 'Values': ['completed']}
+        ],
+        OwnerIds=['self']
     )
-    snapshot_id = snapshot_response['SnapshotId']
-    snapshot_ids[volume_id] = snapshot_id
 
-    volume_details[volume_id] = {
-        'DeviceName': device_name,
-        'VolumeType': volume_type,
-        'Iops': iops,
-        'Throughput': throughput,
-        'Size': size,
-        'AvailabilityZone': availability_zone
-    }
+    existing_snapshot_id = None
+    for snapshot in snapshots['Snapshots']:
+        start_time = snapshot['StartTime']
+        if now - start_time <= snapshot_ttl:
+            existing_snapshot_id = snapshot['SnapshotId']
+            print(f"Found recent snapshot {existing_snapshot_id} for volume {volume_id}")
+            break
 
-    # Add tags to snapshot for easier identification
-    ec2.create_tags(
-        Resources=[snapshot_id],
-        Tags=[
-            {'Key': 'InstanceId', 'Value': instance_id},
-            {'Key': 'OriginalVolumeId', 'Value': volume_id},
-            {'Key': 'DeviceName', 'Value': device_name},
-            {'Key': 'flag', 'Value': 'backup_250407'}
-        ]
-    )
-    print(f"Snapshot created and tagged: {snapshot_id}")
+    if existing_snapshot_id:
+        snapshot_id = existing_snapshot_id
+        print(f"Using existing snapshot {snapshot_id} for volume {volume_id}")
+    else:
 
-    print(f"Waiting for snapshot {snapshot_id} to become 'completed'...")
-    ec2.get_waiter('snapshot_completed').wait(SnapshotIds=[snapshot_id])
+        print(f"Creating snapshot for volume {volume_id}...")
+        snapshot_response = ec2.create_snapshot(
+            VolumeId=volume_id,
+            Description=f"Snapshot for encryption of {volume_id} ({device_name}) from instance {instance_id}"
+        )
+        snapshot_id = snapshot_response['SnapshotId']
+        snapshot_ids[volume_id] = snapshot_id
+
+        volume_details[volume_id] = {
+            'DeviceName': device_name,
+            'VolumeType': volume_type,
+            'Iops': iops,
+            'Throughput': throughput,
+            'Size': size,
+            'AvailabilityZone': availability_zone
+        }
+
+        # Add tags to snapshot for easier identification
+        ec2.create_tags(
+            Resources=[snapshot_id],
+            Tags=[
+                {'Key': 'InstanceId', 'Value': instance_id},
+                {'Key': 'OriginalVolumeId', 'Value': volume_id},
+                {'Key': 'DeviceName', 'Value': device_name},
+                {'Key': 'flag', 'Value': 'backup_250407'}
+            ]
+        )
+        print(f"Snapshot created and tagged: {snapshot_id}")
+
+    # Snapshot is Ready for using?
+    waiter = ec2.get_waiter('snapshot_completed')
+    waiter.config.max_attempts = 120  # Increase max attempts ~ 30 minutes
+    waiter.config.delay = 15  # Set polling interval
+
+    print(f"Waiting for snapshot {snapshot_id} to become 'completed' (with extended timeout)...")
+    waiter.wait(SnapshotIds=[snapshot_id])
     print(f"Snapshot {snapshot_id} is now completed.")
+
 
 # Step 4: Create encrypted volumes from the snapshots
 new_volume_ids = {}
@@ -88,10 +123,14 @@ for volume_id, snapshot_id in snapshot_ids.items():
         'Size': details['Size']
     }
 
-    if details['Iops']:
-        create_params['Iops'] = details['Iops']
-    if details['Throughput']:
-        create_params['Throughput'] = details['Throughput']
+    volume_type = details['VolumeType']
+    print(f"Volume type: {volume_type}")
+
+    if volume_type == 'gp3':
+        if details['Iops']:
+            create_params['Iops'] = details['Iops']
+        if details['Throughput']:
+            create_params['Throughput'] = details['Throughput']
 
     print(f"Creating encrypted volume from snapshot {snapshot_id} with params: {create_params}...")
     new_volume_response = ec2.create_volume(**create_params)
