@@ -1,6 +1,6 @@
 # AWS DevOps
 
-This script: 
+This script converts EBS not-encrypted to EBS-encrypted: 
 - Stop the EC2 instance.
 - Find EC2 instance given in arguments of the script. 
 - Load all EBS in this instance.
