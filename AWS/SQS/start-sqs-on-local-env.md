@@ -12,12 +12,13 @@ Since you’re on a VDI (where Docker may be restricted), here are alternatives 
 - You can run it directly as a Java process, no Docker required.
 - Steps:
   1. Download the JAR from [Maven Central](https://mvnrepository.com/artifact/org.elasticmq/elasticmq-server).
-  2. Run it:
+     - or (https://s3-eu-west-1.amazonaws.com/softwaremill-public/elasticmq-server-1.6.15.jar)
+  3. Run it:
      ```bash
      java -jar elasticmq-server-1.3.10.jar
      ```
-  3. It starts on `http://localhost:9324` by default.
-  4. Point your Spring Boot app to that endpoint.
+  4. It starts on `http://localhost:9324` by default.
+  5. Point your Spring Boot app to that endpoint.
 
 ---
 
